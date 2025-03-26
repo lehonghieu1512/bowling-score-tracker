@@ -3,7 +3,6 @@ package controllers
 import (
 	"bowling-score-tracker/internal/services"
 	"context"
-	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -15,7 +14,7 @@ type CreateGameRequest struct {
 }
 
 type CreateFrameRequest struct {
-	GameID uint                        `json:"game_id" param:"gameID" validate:"required,uuid"`
+	GameID uint                        `param:"gameID"`
 	Scores map[uint]PlayerFrameScore   `json:"scores" validate:"required"`
 }
 
@@ -75,14 +74,14 @@ func (controller *GameController) CreateGame(c echo.Context) error {
 func (controller *GameController) CreateFrame(c echo.Context) error {
 	// Parse request body
 	var req CreateFrameRequest
-	fmt.Println("du ma")
+	
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
 	}
+
 	frameScore := map[uint]services.PlayerFrameScore{}
 	for k, v := range req.Scores {
 		frameScore[k] = services.PlayerFrameScore{
-			FrameNumber: v.FrameNumber,
 			Roll1: v.Roll1,
 			Roll2: v.Roll2,
 			Roll3: v.Roll3,

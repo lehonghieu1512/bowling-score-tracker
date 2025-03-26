@@ -9,7 +9,7 @@ import (
 
 type Frame struct {
 	ID uint
-	PlayerID string
+	PlayerID uint
 	FrameNumber int32
 	Roll1 string
 	Roll2 string
@@ -23,7 +23,6 @@ type CreateFrameInput struct {
 }
 
 type PlayerFrameScore struct {
-	FrameNumber int     `json:"frame_number" validate:"required,min=1,max=10"`
 	Roll1       *string `json:"roll1" validate:"required"`
 	Roll2       *string `json:"roll2"`
 	Roll3       *string `json:"roll3"`
@@ -79,6 +78,8 @@ func parseRoll(roll string) (int, error) {
 		return 10, nil // Strike
 	case "/":
 		return 0, nil  // Spare; actual value is calculated in context
+	case "":
+		return 0, nil
 	default:
 		pins, err := strconv.Atoi(roll)
 		if err != nil || pins < 0 || pins > 9 {

@@ -124,8 +124,8 @@ func TestCreateFrames(t *testing.T) {
             input: services.CreateFrameInput{
                 GameID: 1,
                 Frames: map[uint]services.PlayerFrameScore{
-                    1: {FrameNumber: 1, Roll1: lo.ToPtr("X"), Score: 10},
-                    2: {FrameNumber: 1, Roll1: lo.ToPtr("5"), Roll2: lo.ToPtr("/"), Score: 10},
+                    1: {Roll1: lo.ToPtr("X"), Score: 10},
+                    2: {Roll1: lo.ToPtr("5"), Roll2: lo.ToPtr("/"), Score: 10},
                 },
             },
             setup: func() {
@@ -162,7 +162,7 @@ func TestCreateFrames(t *testing.T) {
             input: services.CreateFrameInput{
                 GameID: 1,
                 Frames: map[uint]services.PlayerFrameScore{
-                    1: {FrameNumber: 1, Roll1: lo.ToPtr("X"), Score: 10},
+                    1: {Roll1: lo.ToPtr("X"), Score: 10},
                 },
             },
             setup: func() {

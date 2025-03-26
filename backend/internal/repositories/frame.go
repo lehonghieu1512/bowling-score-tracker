@@ -48,6 +48,8 @@ func (repo *FrameRepository) GetFramesByPlayerIDs(playerIDs []uint) ([]services.
 				Roll2: frame.Roll2,
 				Roll3: frame.Roll3,
 				Score: frame.Score,
+				PlayerID: frame.PlayerID,
+				FrameNumber: frame.FrameNumber,
 			},
 		)
 	}

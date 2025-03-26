@@ -47,7 +47,7 @@ func (service *GameBowlingService) CreateFrame(c context.Context, input CreateFr
 		v.Score = int32(score)
 		frameScore[k] = v
 	}
-	fmt.Printf("%v+", frameScore)
+
 	return service.gameRepo.CreateFrames(c, CreateFrameInput{
 		GameID: input.GameID,
 		Frames: frameScore,

@@ -10,17 +10,19 @@ import (
 	"github.com/labstack/echo/v4"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func dbMigration() (*gorm.DB, error) {
-
-	DB, err := gorm.Open(sqlite.Open("bowling.db"), &gorm.Config{})
+	DB, err := gorm.Open(sqlite.Open("bowling.db"), &gorm.Config{
+		Logger: logger.Default,
+	})
 	if err != nil {
 		return nil, fmt.Errorf("could not connect to db: %w", err)
 	}
 
 	// Auto-migrate schema
-	err = DB.AutoMigrate(&repositories.Player{}, &repositories.Frame{})
+	err = DB.AutoMigrate(&repositories.Player{}, &repositories.Frame{}, &repositories.Game{})
 	if err != nil {
 		return nil, fmt.Errorf("could not run auto migration: %w", err)
 	}

@@ -74,6 +74,7 @@ func (repo *GameBowlingRepository) RegisterPlayers(c context.Context, playerName
 
 func (repo *GameBowlingRepository) CreateFrames(c context.Context, input services.CreateFrameInput) (err error) {
 	var game Game
+
 	err = repo.db.WithContext(c).Model(&Game{}).Where("id = ?", input.GameID).First(&game).Error
 	if err != nil {
 		return fmt.Errorf("could not find game: %w", err)

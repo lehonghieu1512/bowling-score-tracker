@@ -20,7 +20,7 @@ func dbMigration() (*gorm.DB, error) {
 	}
 
 	// Auto-migrate schema
-	err = DB.AutoMigrate(&repositories.Player{}, &repositories.Score{})
+	err = DB.AutoMigrate(&repositories.Player{}, &repositories.Frame{})
 	if err != nil {
 		return nil, fmt.Errorf("could not run auto migration: %w", err)
 	}
@@ -34,6 +34,7 @@ func getEchoServer(
 	e := echo.New()
 	// TODO: add here
 	e.POST("/games", gameController.CreateGame)
+	e.POST("/games/:gameID/frames", gameController.CreateFrame)
 	return e
 }
 

@@ -20,7 +20,7 @@ type CreateFrameRequest struct {
 }
 
 type GetGameInfoRequest struct {
-	ID string `param:"gameID"`
+	ID uint `param:"gameID"`
 }
 
 type PlayerFrameScore struct {
@@ -38,7 +38,7 @@ type GameInfo struct {
 type GameService interface {
 	RegisterPlayers(c context.Context, playerNames []string) (id uint, err error)
 	CreateFrame(c context.Context, input services.CreateFrameInput) error
-	GetGameInfo(c context.Context, gameID string) (gameinfo services.GameInfo, err error)
+	GetGameInfo(c context.Context, gameID uint) (gameinfo services.GameInfo, err error)
 }
 
 type GameController struct {

@@ -7,5 +7,5 @@ type Player struct {
 }
 
 type PlayerRepository interface {
-	GetPlayersByGameIDs(gameIDs []string) ([]Player, error)
+	GetPlayersByGameIDs(gameIDs []uint) ([]Player, error)
 }

@@ -41,6 +41,9 @@ func NewGameBowlingRepo(db *gorm.DB) *GameBowlingRepository {
 
 func (repo *GameBowlingRepository) RegisterPlayers(c context.Context, playerNames []string) (id uint, err error) {
 	var game Game
+	if len(playerNames) == 0 {
+		return 0, fmt.Errorf("player name should not be empty")
+	}
 	err = repo.db.WithContext(c).Transaction(func(tx *gorm.DB) error {
 		game = Game{
 			CurrentFrame: 0,
@@ -75,7 +78,6 @@ func (repo *GameBowlingRepository) CreateFrames(c context.Context, input service
 	if err != nil {
 		return fmt.Errorf("could not find game: %w", err)
 	}
-	fmt.Printf("ss %d %d", game.CurrentFrame, game.ID)
 	err = repo.db.WithContext(c).Transaction(func(tx *gorm.DB) error {
 		var frames []Frame 
 		for playerID, score := range input.Frames {

@@ -54,8 +54,8 @@ func (service *GameBowlingService) CreateFrame(c context.Context, input CreateFr
 	})
 }
 
-func (service *GameBowlingService) GetGameInfo(c context.Context, gameID string) (gameinfo GameInfo, err error) {
-	players, err := service.playerRepo.GetPlayersByGameIDs([]string{gameID})
+func (service *GameBowlingService) GetGameInfo(c context.Context, gameID uint) (gameinfo GameInfo, err error) {
+	players, err := service.playerRepo.GetPlayersByGameIDs([]uint{gameID})
 	if err != nil {
 		return GameInfo{}, fmt.Errorf("could not get players: %w", err)
 	}

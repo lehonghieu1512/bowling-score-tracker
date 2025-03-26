@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"bowling-score-tracker/internal/services"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -24,7 +25,7 @@ func NewPlayerRepo(db *gorm.DB) *PlayerRepository {
 }
 
 // GetPlayersByGameIDs retrieves all players associated with the specified game IDs.
-func (repo *PlayerRepository) GetPlayersByGameIDs(gameIDs []string) ([]services.Player, error) {
+func (repo *PlayerRepository) GetPlayersByGameIDs(gameIDs []uint) ([]services.Player, error) {
 	var players []Player
 	if len(gameIDs) == 0 {
 		return nil, nil
@@ -34,6 +35,7 @@ func (repo *PlayerRepository) GetPlayersByGameIDs(gameIDs []string) ([]services.
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("%v", players)
 	var outputPlayers []services.Player
 	for _, player := range players {
 		outputPlayers = append(outputPlayers, services.Player{

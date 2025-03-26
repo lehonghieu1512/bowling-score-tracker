@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"bowling-score-tracker/internal/services"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -30,7 +31,7 @@ func NewFrameRepo(db *gorm.DB) *FrameRepository {
 func (repo *FrameRepository) GetFramesByPlayerIDs(playerIDs []uint) ([]services.Frame, error) {
 	var frames []Frame
 	if len(playerIDs) == 0 {
-		return nil, nil // Return an empty slice if no player IDs are provided
+		return nil, fmt.Errorf("player IDs should not be empty") // Return an empty slice if no player IDs are provided
 	}
 
 	err := repo.db.Where("player_id IN ?", playerIDs).Find(&frames).Error

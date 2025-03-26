@@ -35,6 +35,7 @@ func getEchoServer(
 	// TODO: add here
 	e.POST("/games", gameController.CreateGame)
 	e.POST("/games/:gameID/frames", gameController.CreateFrame)
+	e.GET("/games/:gameID", gameController.GetGameInfo)
 	return e
 }
 
@@ -45,7 +46,9 @@ func main() {
 	}
 
 	gameBowlingRepo := repositories.NewGameBowlingRepo(db)
-	gameBowlingService := services.NewGameBowlingService(gameBowlingRepo)
+	frameRepo := repositories.NewFrameRepo(db)
+	playerRepo := repositories.NewPlayerRepo(db)
+	gameBowlingService := services.NewGameBowlingService(gameBowlingRepo, playerRepo, frameRepo)
 	gameBowlingController := controllers.NewGameController(gameBowlingService)
 
 	e := getEchoServer(gameBowlingController)

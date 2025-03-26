@@ -1,10 +1,10 @@
 package repositories
 
 import (
+	"bowling-score-tracker/internal/services"
 	"context"
 	"fmt"
 
-	"github.com/google/uuid"
 	"github.com/samber/lo"
 	"gorm.io/gorm"
 )
@@ -39,10 +39,10 @@ func NewGameBowlingRepo(db *gorm.DB) *GameBowlingRepository {
 	}
 }
 
-func (repo *GameBowlingRepository) RegisterPlayers(c context.Context, playerNames []string) (id string, err error) {
-	id = uuid.New().String()
+func (repo *GameBowlingRepository) RegisterPlayers(c context.Context, playerNames []string) (id uint, err error) {
+	var game Game
 	err = repo.db.WithContext(c).Transaction(func(tx *gorm.DB) error {
-		game := Game{
+		game = Game{
 			CurrentFrame: 0,
 			PlayerNumber: int32(len(playerNames)),
 		}
@@ -54,6 +54,7 @@ func (repo *GameBowlingRepository) RegisterPlayers(c context.Context, playerName
 		for _, name := range playerNames {
 			players = append(players, Player{
 				Name: name,
+				GameID: game.ID,
 			})
 		}
 		if err := tx.Create(&players).Error; err != nil {
@@ -63,17 +64,18 @@ func (repo *GameBowlingRepository) RegisterPlayers(c context.Context, playerName
 		return nil
 	})
 	if err != nil {
-		return "", fmt.Errorf("could not register players: %w", err)
+		return 0, fmt.Errorf("could not register players: %w", err)
 	}
-	return id, nil
+	return game.ID, nil
 }
 
-func (repo *GameBowlingRepository) CreateFrames(c context.Context, input CreateFramesInput) (err error) {
+func (repo *GameBowlingRepository) CreateFrames(c context.Context, input services.CreateFrameInput) (err error) {
 	var game Game
-	err = repo.db.WithContext(c).Model(&Game{}).Where("id = ?", input.GameID).Find(&game).Error
+	err = repo.db.WithContext(c).Model(&Game{}).Where("id = ?", input.GameID).First(&game).Error
 	if err != nil {
 		return fmt.Errorf("could not find game: %w", err)
 	}
+	fmt.Printf("ss %d %d", game.CurrentFrame, game.ID)
 	err = repo.db.WithContext(c).Transaction(func(tx *gorm.DB) error {
 		var frames []Frame 
 		for playerID, score := range input.Frames {

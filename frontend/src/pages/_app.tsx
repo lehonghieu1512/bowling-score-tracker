@@ -1,11 +1,11 @@
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-import Navigation from '../pages/navigation'; // Adjust the path as necessary
+// import Navigation from '../pages/navigation'; // Adjust the path as necessary
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Navigation />
+      {/* <Navigation /> */}
       <Component {...pageProps} />
     </>
   );

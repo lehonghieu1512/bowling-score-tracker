@@ -15,10 +15,10 @@ type CreateFramesInput struct {
 }
 
 type PlayerFrameScore struct {
-	FrameNumber int     `json:"frame_number" validate:"required,min=1,max=10"`
-	Roll1       *string `json:"roll1" validate:"required"`
-	Roll2       *string `json:"roll2"`
-	Roll3       *string `json:"roll3"`
+	FrameNumber int     
+	Roll1       *string 
+	Roll2       *string
+	Roll3       *string
 	Score 		int32
 }
 

@@ -8,7 +8,7 @@ import (
 
 type Player struct {
 	gorm.Model
-	Game Game `gorm:"foreignKey:GameID"`
+	Game Game
 	GameID uint 
 	Name string
 }
